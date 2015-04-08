@@ -15,6 +15,7 @@ public class Main extends PApplet{
 
 	Minim musicLoader = new Minim(this); //Create a minim instance to load the song into musicPlayer
 	AudioPlayer musicPlayer; //Object that will actually play the sound
+	AudioMetaData musicMetaData;
 	
 	public void setup()
 	{
@@ -36,7 +37,7 @@ public class Main extends PApplet{
 	
 	public void getMusicFile(File musicFile)
 	{
-		if(musicFile == null) //Make sure the file points to something, will add audio extension filtering 
+		if(musicFile == null && musicFile.isFile() == true) //Make sure the file points to something, will add audio extension filtering 
 		{
 			println("Error while loading file");
 		}
@@ -45,7 +46,20 @@ public class Main extends PApplet{
 			println("Path to file: " + musicFile.getAbsolutePath()); //Print the absolute path to the file 
 			musicPlayer = musicLoader.loadFile(musicFile.getAbsolutePath()); //Load the music file into the musicPlayer
 		}
-		playMusicFile(); 
+		parseMetaData();
+	}
+	 
+	public void parseMetaData()
+	{
+		musicMetaData = musicPlayer.getMetaData(); //Gets the metadata for the current file loaded into musicPlayer
+		println("Song information"); //Outputs some extra song information
+		println("Filename:" + musicMetaData.fileName());
+		println("Author:" + musicMetaData.author());
+		println("Copyright:" + musicMetaData.copyright());
+		println("Genre:" + musicMetaData.genre());
+		println("Encoded:" + musicMetaData.encoded());
+		
+		playMusicFile();
 	}
 
 	public void playMusicFile()
