@@ -8,20 +8,29 @@
 package game.src.musicLoader;
 
 import java.io.File;
-import processing.core.*; //PApplet is in here
+
+import processing.core.PApplet; //PApplet is in here
 import ddf.minim.*; //Processing sound methods
+import ddf.minim.analysis.FFT;
 
 public class Main extends PApplet{
 
-	Minim musicLoader = new Minim(this); //Create a minim instance to load the song into musicPlayer
-	AudioPlayer musicPlayer; //Object that will actually play the sound
-	AudioMetaData musicMetaData;
+	public Minim musicLoader; //Create a variable that will be used to instantiate a minim object
+	public AudioPlayer musicPlayer; //Object that will actually play the sound
+	public AudioMetaData musicMetaData;
+	public FFT frequencySpectrum;
+	public boolean fileLoaded;
 	
 	public void setup()
 	{
-		size(800,800);
+		size(500,200);
 		smooth();
-		showFileDialog(); //GUI open file dialog like what is built into windows 
+		noLoop(); //Run draw() once
+		/*
+		 * draw() was being ran even before the file was loaded but what was being drawn
+		 * is dependent on data in the music file being loaded 
+		 */
+		fileLoaded = false; 
 	}
 	
 	public void showFileDialog()
@@ -37,20 +46,30 @@ public class Main extends PApplet{
 	
 	public void getMusicFile(File musicFile)
 	{
-		if(musicFile == null && musicFile.isFile() == true) //Make sure the file points to something, will add audio extension filtering 
+		if(musicFile.isFile() != true) //Make sure the file points to something, will add audio extension filtering 
 		{
 			println("Error while loading file");
 		}
 		else
 		{
-			println("Path to file: " + musicFile.getAbsolutePath()); //Print the absolute path to the file 
+			musicLoader = new Minim(this);
 			musicPlayer = musicLoader.loadFile(musicFile.getAbsolutePath()); //Load the music file into the musicPlayer
+			fileLoaded = true;
+			println("File loaded");
+			parseMetaData(); //Only want to call these 3 methods once
+			setupSpectrum(); //Having them in setup() was causing the rest of the program not to work
+			playMusicFile();
+			/*
+			 * File is loaded so we have the data we need to draw the spectrum 
+			 * so re-enable looping of the draw() method
+			 */
+			loop(); 
 		}
-		parseMetaData();
 	}
 	 
 	public void parseMetaData()
 	{
+		println("Metadata reached");
 		musicMetaData = musicPlayer.getMetaData(); //Gets the metadata for the current file loaded into musicPlayer
 		println("Song information"); //Outputs some extra song information
 		println("Filename:" + musicMetaData.fileName());
@@ -58,13 +77,45 @@ public class Main extends PApplet{
 		println("Copyright:" + musicMetaData.copyright());
 		println("Genre:" + musicMetaData.genre());
 		println("Encoded:" + musicMetaData.encoded());
-		
-		playMusicFile();
+	}
+	
+	public void setupSpectrum()
+	{
+		frequencySpectrum = new FFT(musicPlayer.bufferSize(),musicPlayer.sampleRate());
+		frequencySpectrum.forward(musicPlayer.mix);
+	}
+	
+	public void displaySpectrum()
+	{
+		/*
+		Just some debugging code to see what is actually getting parsed from the
+		music file
+		*/
+		println(frequencySpectrum.specSize());
+		println(frequencySpectrum.getBand(1));
 	}
 
 	public void playMusicFile()
 	{
 		musicPlayer.play(); //Play the audio file
 	}
+	
+	public void draw()
+	{
+		/*
+		 * Only draw the spectrum if the file is loaded
+		 * otherwise open a file dialog box to allow file 
+		 * selection
+		 */
+		if(fileLoaded == false)
+		{
+			showFileDialog();
+		}
+		else if(fileLoaded == true)
+		{
+			displaySpectrum();
+		}
+	}
+	
 	
 }
