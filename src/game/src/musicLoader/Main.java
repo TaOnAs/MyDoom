@@ -23,7 +23,7 @@ public class Main extends PApplet{
 	
 	public void setup()
 	{
-		size(500,200);
+		size(512,200);
 		smooth();
 		noLoop(); //Run draw() once
 		/*
@@ -53,7 +53,7 @@ public class Main extends PApplet{
 		else
 		{
 			musicLoader = new Minim(this);
-			musicPlayer = musicLoader.loadFile(musicFile.getAbsolutePath()); //Load the music file into the musicPlayer
+			musicPlayer = musicLoader.loadFile(musicFile.getAbsolutePath(),512); //Load the music file into the musicPlayer
 			fileLoaded = true;
 			println("File loaded");
 			parseMetaData(); //Only want to call these 3 methods once
@@ -100,6 +100,21 @@ public class Main extends PApplet{
 		musicPlayer.play(); //Play the audio file
 	}
 	
+	public void displayWaveForm()
+	{
+		/*
+		 * Spawn sound demon, needs to be fixed, most likely to do with the buffer length
+		 * set when file is being read in
+		 */
+		background(0);
+		stroke(255);
+		for(int buffer = 0; buffer < musicPlayer.bufferSize() - 1; ++buffer)
+		{
+			line(buffer,50 + musicPlayer.left.get(buffer) * 50,buffer + 1,musicPlayer.left.get(buffer + 1) * 50);
+			line(buffer,150 + musicPlayer.right.get(buffer) * 50,buffer + 1,150 + musicPlayer.right.get(buffer + 1	) * 50);
+		}
+	}
+	
 	public void draw()
 	{
 		/*
@@ -113,7 +128,8 @@ public class Main extends PApplet{
 		}
 		else if(fileLoaded == true)
 		{
-			displaySpectrum();
+			//displaySpectrum(); Will come back to this method, going to work on drawing the waveform
+			displayWaveForm();
 		}
 	}
 	
