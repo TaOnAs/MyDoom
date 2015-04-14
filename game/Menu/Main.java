@@ -120,7 +120,7 @@ public class Main extends PApplet
 	     y=0;
 	   }
 	      
-	  if (millis() > 6500)  //Image fade in delay
+	  if (millis() > 6400)  //Image fade in delay
 	  {
 	    stroke(255, 0, 0);
 	    //fill(#E3130B);
@@ -159,33 +159,33 @@ public class Main extends PApplet
 	    
 	  }
 
-	   image(start, width/3*2, height/5);
-	   image(help, width/3*2, height/5*2);
-	   image(gear, width/3*2, height/5*3);
-	   image(score, width/3*2, height/5*4);
+	   image(start, width/5*4, height/4);
+	   image(help, width/5*4, height/4*2);
+	   image(gear, width/5*4, height/4*3);
+	   image(score, width/5*4, height/4*4);
 	   
 	   fill(229, 194, 51);
 	   
 	   if (menu==1)
 	   {
-	      image(arrow, width/3*2, height/5);
+	      image(arrow, width/5*4, height/4);
 	    // triangle(width/2-50, height/5/2, width/2-50, height/5/2+30, width/2-10, height/5+15);
 	    //ellipse(width/5*2, height/5, width/50, height/50);
 	   }
 	   
 	   if (menu==2)
 	   {
-	     image(arrow, width/3*2, height/5*2);
+	     image(arrow, width/5*4, height/4*2);
 	   }
 	   
 	   if (menu==3)
 	   {
-	      image(arrow, width/3*2, height/5*3);
+	      image(arrow, width/5*4, height/4*3);
 	   }
 	   
 	   if (menu==4)
 	   {
-	      image(arrow, width/3*2, height/5*4);
+	      image(arrow, width/5*4, height/4*4);
 	   }
 	   
 	  /* if (keyPressed)
@@ -215,11 +215,11 @@ public class Main extends PApplet
 
 	  stroke(0);
 
-	  if (circleSize > 699) 
+	  if (circleSize > 499) 
 	  {
 	        shrinkOrGrow = 0; 
 	    } 
-	    else if (circleSize < 501) 
+	    else if (circleSize < 335) 
 	    {
 	        shrinkOrGrow = 1;
 	    }
@@ -230,12 +230,12 @@ public class Main extends PApplet
 	    else if (shrinkOrGrow == 0)
 	    {
 	        circleSize -= 3;  
-	    }
+	    } 
 	    
 	    fill(255);
-	    ellipse(width/5, height/2, circleSize, circleSize);
+	    ellipse(width/7*2, height/2, circleSize, circleSize);
 	    
-	    image(doomonics, width/5, height/2);
+	    image(doomonics, width/7*2, height/2);
 	  
 	}
 
