@@ -1,9 +1,13 @@
+/*
+ * Author: Trieu Nguyen
+ */
+
 package game.Gameplay;
 
 import java.util.ArrayList;
 import processing.core.PApplet;
 
-public class Main extends PApplet
+public class Gameplay extends PApplet
 {
 	boolean[] buttons;
 	
