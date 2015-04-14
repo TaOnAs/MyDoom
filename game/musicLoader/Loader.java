@@ -16,7 +16,7 @@ import processing.core.PApplet; //PApplet is in here
 import ddf.minim.*; //Processing sound methods
 import ddf.minim.analysis.FFT;
 
-public class Main extends PApplet{
+public class Loader extends PApplet{
 
 	public Minim musicLoader; //Create a variable that will be used to instantiate a minim object
 	public AudioPlayer musicPlayer; //Object that will actually play the sound
