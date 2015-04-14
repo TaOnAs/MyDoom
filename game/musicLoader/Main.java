@@ -8,7 +8,7 @@
  */
 //
 
-package game.MusicLoader;
+package game.musicLoader;
 
 import java.io.File;
 
