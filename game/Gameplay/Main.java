@@ -1,6 +1,5 @@
 package game.Gameplay;
 
-
 import java.util.ArrayList;
 import processing.core.PApplet;
 
@@ -28,7 +27,8 @@ public class Main extends PApplet
 	
 	public void setup()
 	{
-		size(800, 1580);
+		//size(800, 1580);
+		size(displayWidth, displayHeight);
 		
 		score = 0;
 		life = 100;
@@ -57,6 +57,8 @@ public class Main extends PApplet
 	{
 	    background(255);
 	    
+	    aestheics();
+	    
 	    text(noArrows, 50, 50);
 	    text(life, 100, 210);
 	    text(score, 100, 220);
@@ -67,6 +69,16 @@ public class Main extends PApplet
 	    Gameplay();
 	    
 	}//End draw()
+	
+	public void aestheics()
+	{
+		fill(0);
+		rect(180, 0, 440, height);
+		
+		stroke(0);
+		fill(255, 255, 255, 171);
+		rect(200, 0, 400, height);
+	}
 	
 	public void Gameplay()
 	{
@@ -232,7 +244,7 @@ public class Main extends PApplet
     	{
     		speedConstant = arrowSpeedVariable/Arrows.get(i).arrowHei;
     		
-    		Arrows.get(i).arrowMovement(arrowSpeedVariable*speedConstant);
+    		Arrows.get(i).arrowMovement(arrowSpeedVariable*speedConstant, i);
     	}
 	    
 	    //Checks to see if arrows go off screen
@@ -416,11 +428,38 @@ public class Main extends PApplet
 	        }// Endswitch()
 	     }//End arrow()
 	  
-		 public void arrowMovement(float spd)
+		 public void arrowMovement(float spd, int i)
 	     {
 		     arrowCurrYPos -= spd;
 		     
-		     fill(0);
+		     switch(Arrows.get(i).kPos)
+    		{
+	    		case 0:
+	    		{
+	    			fill(100, 155, 50);
+	    			break;
+	    		}
+	    		
+	    		case 1:
+	    		{
+	    			fill(50, 155, 100);
+	    			break;
+	    		}
+	    		
+	    		case 2:
+	    		{
+	    			fill(100, 155, 50);
+	    			break;
+	    		}
+	    		
+	    		case 3:
+	    		{
+	    			fill(50, 155, 100);
+	    			break;
+	    		}
+    		}
+		     
+		     //fill(0);
 		     rect(arrowCurrXPos, arrowCurrYPos, arrowLen, arrowHei);
 		 }
 	  
