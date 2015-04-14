@@ -1,4 +1,4 @@
-package game.Score;
+package src.game.Score;
 
 import processing.core.PApplet;
 

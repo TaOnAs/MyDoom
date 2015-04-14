@@ -5,7 +5,7 @@
  * Description:Loads music files player wants to add to game and passes them to the analyzer class
  * 
  */
-package game.musicLoader;
+package src.game.musicLoader;
 
 import java.io.File;
 

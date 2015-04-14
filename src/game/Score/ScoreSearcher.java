@@ -1,4 +1,4 @@
-package game.Score;
+package src.game.Score;
 
 import java.sql.*;
 import java.util.Scanner;
