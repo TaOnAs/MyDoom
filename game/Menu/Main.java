@@ -159,33 +159,33 @@ public class Main extends PApplet
 	    
 	  }
 
-	   image(start, width/5*4, height/4);
-	   image(help, width/5*4, height/4*2);
-	   image(gear, width/5*4, height/4*3);
-	   image(score, width/5*4, height/4*4);
+	   image(start, width/5*4, height/4 - 40);
+	   image(help, width/5*4, height/4*2 - 40);
+	   image(gear, width/5*4, height/4*3 - 40);
+	   image(score, width/5*4, height/4*4 - 40);
 	   
 	   fill(229, 194, 51);
 	   
 	   if (menu==1)
 	   {
-	      image(arrow, width/5*4, height/4);
+	      image(arrow, width/5*4, height/4 - 40);
 	    // triangle(width/2-50, height/5/2, width/2-50, height/5/2+30, width/2-10, height/5+15);
 	    //ellipse(width/5*2, height/5, width/50, height/50);
 	   }
 	   
 	   if (menu==2)
 	   {
-	     image(arrow, width/5*4, height/4*2);
+	     image(arrow, width/5*4, height/4*2 - 40);
 	   }
 	   
 	   if (menu==3)
 	   {
-	      image(arrow, width/5*4, height/4*3);
+	      image(arrow, width/5*4, height/4*3 - 40);
 	   }
 	   
 	   if (menu==4)
 	   {
-	      image(arrow, width/5*4, height/4*4);
+	      image(arrow, width/5*4, height/4*4 - 40);
 	   }
 	   
 	  /* if (keyPressed)
@@ -215,11 +215,11 @@ public class Main extends PApplet
 
 	  stroke(0);
 
-	  if (circleSize > 499) 
+	  if (circleSize > 650) 
 	  {
 	        shrinkOrGrow = 0; 
 	    } 
-	    else if (circleSize < 335) 
+	    else if (circleSize < 350) 
 	    {
 	        shrinkOrGrow = 1;
 	    }
@@ -244,8 +244,7 @@ public class Main extends PApplet
 	void helpScreen()
 	{
 	  mainMenu=false;
-	  background(255, 0, 0);
-	  
+	  background(255, 0, 0);	  
 	  imageMode(CENTER);
 	  image(helptitle, width/2, height/5);
 	}
