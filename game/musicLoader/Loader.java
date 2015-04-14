@@ -23,10 +23,11 @@ public class Loader extends PApplet{
 	public AudioMetaData musicMetaData;
 	public FFT frequencySpectrum;
 	public boolean fileLoaded;
+	public int metaXPos,metaYPos,metaSpacing; //Co-ordinates for displaying the metadata on the applet instead of console
 	
 	public void setup()
 	{
-		size(512,200);
+		size(1024,600); //The sceeen size is closely linked the the buffer size grab chunks of music data into minim
 		smooth();
 		noLoop(); //Run draw() once
 		/*
@@ -34,6 +35,10 @@ public class Loader extends PApplet{
 		 * is dependent on data in the music file being loaded 
 		 */
 		fileLoaded = false; 
+		metaXPos = 50; //X cord
+		metaYPos = 150; //Y cord
+		metaSpacing = 15; //Spacing between each line of text
+		textFont(createFont("Serif", metaSpacing));
 	}
 	
 	public void showFileDialog()
@@ -74,12 +79,6 @@ public class Loader extends PApplet{
 	{
 		println("Metadata reached");
 		musicMetaData = musicPlayer.getMetaData(); //Gets the metadata for the current file loaded into musicPlayer
-		println("Song information"); //Outputs some extra song information
-		println("Filename:" + musicMetaData.fileName());
-		println("Author:" + musicMetaData.author());
-		println("Copyright:" + musicMetaData.copyright());
-		println("Genre:" + musicMetaData.genre());
-		println("Encoded:" + musicMetaData.encoded());
 	}
 	
 	public void setupSpectrum()
@@ -103,13 +102,30 @@ public class Loader extends PApplet{
 		musicPlayer.play(); //Play the audio file
 	}
 	
+	public void displayMetaData()
+	{
+		/*
+		 * Changed the original method so the metadata is 
+		 * displayed on the applet and not the console
+		 * 
+		 */
+		background(0);
+		fill(0, 102, 153, 204);
+		text("Filename: " + musicMetaData.fileName(),metaXPos,metaYPos + (metaSpacing * 1));
+		text("Title: " + musicMetaData.title(),metaXPos,metaYPos + (metaSpacing * 2));
+		text("Track: " + musicMetaData.track(),metaXPos,metaYPos + (metaSpacing * 3));
+		text("Artist: " + musicMetaData.author(),metaXPos,metaYPos + (metaSpacing * 4));
+		text("Composer: " + musicMetaData.composer(),metaXPos,metaYPos + (metaSpacing * 5));
+		text("Genre: " + musicMetaData.genre(),metaXPos,metaYPos + (metaSpacing * 6));
+		text("Time: : " + musicMetaData.length(),metaXPos,metaYPos + (metaSpacing * 7));
+	}
+	
 	public void displayWaveForm()
 	{
 		/*
 		 * Spawn sound demon, needs to be fixed, most likely to do with the buffer length
 		 * set when file is being read in
 		 */
-		background(0);
 		stroke(255);
 		for(int buffer = 0; buffer < musicPlayer.bufferSize() - 1; ++buffer)
 		{
@@ -132,6 +148,7 @@ public class Loader extends PApplet{
 		else if(fileLoaded == true)
 		{
 			//displaySpectrum(); Will come back to this method, going to work on drawing the waveform
+			displayMetaData();
 			displayWaveForm();
 		}
 	}
