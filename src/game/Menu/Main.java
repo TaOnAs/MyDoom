@@ -1,4 +1,4 @@
-package src.game.Menu;
+package game.Menu;
 
 import processing.core.PApplet;
 import processing.core.PImage;

@@ -1,3 +1,4 @@
+
 /*
  * 
  * Author:Ciaran Strutt
@@ -5,8 +6,9 @@
  * Description:Loads music files player wants to add to game and passes them to the analyzer class
  * 
  */
-package src.game.musicLoader;
 //
+
+package game.MusicLoader;
 
 import java.io.File;
 

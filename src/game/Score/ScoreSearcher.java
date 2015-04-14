@@ -1,25 +1,32 @@
-package src.game.Score;
+package game.Score;
 
-import java.sql.*;
-//
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
-public class ScoreSearcher {
+import processing.core.PApplet;
+
+public class ScoreSearcher extends PApplet {
 	
 	//variables to use as parameters for searching the database
 	private String songTitle;
 	private String name;
 	private String position;
-	private String score;
+	public String score;
 	private String path;
 	
 	//database variables
 	private Connection conn;
 	private ResultSet r;
 	private PreparedStatement pstatm;
-	private Statement statm;
 	private String sql;
 	private Scanner user_input;
+	
+	public String[] scoreArray = new String[10];
+	public String[] nameArray = new String[10];
 	
 	//function to load the previous top ten scores for a specific song from the database
 	public void loadScores()
@@ -39,11 +46,18 @@ public class ScoreSearcher {
 			r = pstatm.executeQuery();		//query the database
 			
 			System.out.println("Highscores for this song: " + songTitle);
+			
+			int i = 0;
 			while (r.next())	//while there are entries left that have been returned print out the data
 			{
+				
 				setScore(r.getString("score"));
 				setName(r.getString("name"));
+				scoreArray[i] = score;
+				nameArray[i] = name;
 				System.out.println(name + "\t" + score);
+				//text("test", 20, 20);
+				i++;
 			}
 			conn.close();
 		}

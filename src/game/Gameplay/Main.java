@@ -1,4 +1,5 @@
-package src.game.gamplay;
+package game.Gameplay;
+
 
 import java.util.ArrayList;
 import processing.core.PApplet;
@@ -43,7 +44,7 @@ public class Main extends PApplet
 	    noArrows = 0;
 	    maxNoArrows = 32;
 	    
-	    arrowSpeedVariable = 32f;
+	    arrowSpeedVariable = 27f;
 	    
 	    //Starts up the buttons as off
 	    buttons[0] = false;
@@ -55,7 +56,6 @@ public class Main extends PApplet
 	public void draw()
 	{
 	    background(255);
-	    //Gameplay()
 	    
 	    text(noArrows, 50, 50);
 	    text(life, 100, 210);
@@ -64,7 +64,13 @@ public class Main extends PApplet
 	    
 	    scoreSpot.drawArea();
 	    
-	    if(noArrows == 0)
+	    Gameplay();
+	    
+	}//End draw()
+	
+	public void Gameplay()
+	{
+		if(noArrows == 0)
 	    {
 	    	for(int i = 0; i < maxNoArrows; i++)
 	    	{
@@ -85,6 +91,7 @@ public class Main extends PApplet
 	    		if((Arrows.get(i).kPos == 0) && (buttons[0]))
 	    		{
 	    			score += scoreSystemInverse(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
+	    			life += 5;
 	    			arrowsPressed = true;
 	    		}
 	    		else if(((Arrows.get(i).kPos == 0)) && ((buttons[1]) || (buttons[2]) || (buttons[3])))
@@ -97,6 +104,7 @@ public class Main extends PApplet
 	    		if((Arrows.get(i).kPos == 1) && (buttons[1]))
 	    		{
 	    			score += scoreSystemInverse(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
+	    			life += 5;
 	    			arrowsPressed = true;
 	    		}
 	    		else if(((Arrows.get(i).kPos == 1)) && ((buttons[0]) || (buttons[3]) || (buttons[2])))
@@ -109,6 +117,7 @@ public class Main extends PApplet
 	    		if((Arrows.get(i).kPos == 2) && (buttons[2]))
 	    		{
 	    			score += scoreSystemInverse(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
+	    			life += 5;
 	    			arrowsPressed = true;
 	    		}
 	    		else if(((Arrows.get(i).kPos == 2)) && ((buttons[0]) || (buttons[3]) || (buttons[1])))
@@ -121,6 +130,7 @@ public class Main extends PApplet
 	    		if((Arrows.get(i).kPos == 3) && (buttons[3]))
 	    		{
 	    			score += scoreSystemInverse(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
+	    			life += 5;
 	    			arrowsPressed = true;
 	    		}
 	    		else if(((Arrows.get(i).kPos == 3)) && ((buttons[1]) || (buttons[2]) || (buttons[0])))
@@ -148,92 +158,13 @@ public class Main extends PApplet
 	    {
 	    	boolean arrowsPressed = false;
 	    	
-	    	//If note is in box and the wrong key is pressed
-	    	/*if(collision.collisionConnect(Arrows.get(i).arrowCurrXPos, Arrows.get(i).arrowCurrYPos, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen))
-	    	{
-	    		if(((Arrows.get(i).kPos == 0)) && ((buttons[1]) || (buttons[2]) || (buttons[3])))
-	    		{
-	    			life -= 10;
-	    			arrowsPressed = true;
-	    		}
-	    		
-	    		if(((Arrows.get(i).kPos == 1)) && ((buttons[0]) || (buttons[3]) || (buttons[2])))
-	    		{
-	    			life -= 10;
-	    			arrowsPressed = true;
-	    		}
-	    		
-	    		if(((Arrows.get(i).kPos == 2)) && ((buttons[0]) || (buttons[3]) || (buttons[1])))
-	    		{
-	    			life -= 10;
-	    			arrowsPressed = true;
-	    		}
-	    		
-	    		if(((Arrows.get(i).kPos == 3)) && ((buttons[1]) || (buttons[2]) || (buttons[0])))
-	    		{
-	    			life -= 10;
-	    			arrowsPressed = true;
-	    		}
-	    	}*/
-	    	
-	    	//If note is in box and the right key is pressed
-	    	/*if(collision.collisionConnect(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen) && ((Arrows.get(i).arrowCurrYPos > scoreSpot.awayFromTop) && (Arrows.get(i).arrowCurrYPos < scoreSpot.awayFromTop + scoreSpot.checkHei)))
-	    	{
-	    		if((Arrows.get(i).kPos == 0) && (buttons[0]))
-	    		{
-	    			score += scoreSystemInverse(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
-	    			arrowsPressed = true;
-	    		}
-	    		else if(((Arrows.get(i).kPos == 0)) && ((buttons[1]) || (buttons[2]) || (buttons[3])))
-	    		{
-	    			chainGauge = 0;
-	    			life -= 10;
-	    			arrowsPressed = true;
-	    		}
-	    		
-	    		if((Arrows.get(i).kPos == 1) && (buttons[1]))
-	    		{
-	    			score += scoreSystemInverse(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
-	    			arrowsPressed = true;
-	    		}
-	    		else if(((Arrows.get(i).kPos == 1)) && ((buttons[0]) || (buttons[3]) || (buttons[2])))
-	    		{
-	    			chainGauge = 0;
-	    			life -= 10;
-	    			arrowsPressed = true;
-	    		}
-	    		
-	    		if((Arrows.get(i).kPos == 2) && (buttons[2]))
-	    		{
-	    			score += scoreSystemInverse(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
-	    			arrowsPressed = true;
-	    		}
-	    		else if(((Arrows.get(i).kPos == 2)) && ((buttons[0]) || (buttons[3]) || (buttons[1])))
-	    		{
-	    			chainGauge = 0;
-	    			life -= 10;
-	    			arrowsPressed = true;
-	    		}
-	    		
-	    		if((Arrows.get(i).kPos == 3) && (buttons[3]))
-	    		{
-	    			score += scoreSystemInverse(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
-	    			arrowsPressed = true;
-	    		}
-	    		else if(((Arrows.get(i).kPos == 3)) && ((buttons[1]) || (buttons[2]) || (buttons[0])))
-	    		{
-	    			chainGauge = 0;
-	    			life -= 10;
-	    			arrowsPressed = true;
-	    		}
-	    	}*/
-	    	
 	    	//Checks if bottom is in box
 	    	if((collision.collisionConnect(Arrows.get(i).arrowCurrXPos, Arrows.get(i).arrowCurrYPos, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen)) && ((Arrows.get(i).arrowCurrYPos > scoreSpot.awayFromTop) && (Arrows.get(i).arrowCurrYPos < scoreSpot.awayFromTop + scoreSpot.checkHei)))
 	    	{
 	    		if((Arrows.get(i).kPos == 0) && (buttons[0]))
 	    		{
 	    			score += scoreSystem(Arrows.get(i).arrowCurrXPos, Arrows.get(i).arrowCurrYPos, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
+	    			life += 5;
 	    			arrowsPressed = true;
 	    		}
 	    		else if(((Arrows.get(i).kPos == 0)) && ((buttons[1]) || (buttons[2]) || (buttons[3])))
@@ -246,6 +177,7 @@ public class Main extends PApplet
 	    		if((Arrows.get(i).kPos == 1) && (buttons[1]))
 	    		{
 	    			score += scoreSystem(Arrows.get(i).arrowCurrXPos, Arrows.get(i).arrowCurrYPos, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
+	    			life += 5;
 	    			arrowsPressed = true;
 	    		}
 	    		else if(((Arrows.get(i).kPos == 1)) && ((buttons[0]) || (buttons[3]) || (buttons[2])))
@@ -258,6 +190,7 @@ public class Main extends PApplet
 	    		if((Arrows.get(i).kPos == 2) && (buttons[2]))
 	    		{
 	    			score += scoreSystem(Arrows.get(i).arrowCurrXPos, Arrows.get(i).arrowCurrYPos, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
+	    			life += 5;
 	    			arrowsPressed = true;
 	    		}
 	    		else if(((Arrows.get(i).kPos == 2)) && ((buttons[0]) || (buttons[3]) || (buttons[1])))
@@ -270,6 +203,7 @@ public class Main extends PApplet
 	    		if((Arrows.get(i).kPos == 3) && (buttons[3]))
 	    		{
 	    			score += scoreSystem(Arrows.get(i).arrowCurrXPos, Arrows.get(i).arrowCurrYPos, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
+	    			life += 5;
 	    			arrowsPressed = true;
 	    		}
 	    		else if(((Arrows.get(i).kPos == 3)) && ((buttons[1]) || (buttons[2]) || (buttons[0])))
@@ -280,6 +214,7 @@ public class Main extends PApplet
 	    		}
 	    	}
 	    	
+	    	//Pressed buttons
 	    	if(arrowsPressed)
 	    	{
 	    		buttons[0] = false;
@@ -291,8 +226,6 @@ public class Main extends PApplet
 	    		noArrows -= 1;
 	    	}
 	    }
-	    
-	    //Press buttons to match with buttons
 	    
 	    //Sets the arrows speed
     	for(int i = 0; i < Arrows.size(); i++)
