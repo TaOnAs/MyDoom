@@ -3,7 +3,7 @@ package game.Menu;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-public class Main extends PApplet
+public class Menu extends PApplet
 {
 	//DT228-2 
 	//Programming Assignment 3
