@@ -9,7 +9,7 @@ public class Main extends PApplet
 	
 	int noArrows; //The current amount of arrows on screen
 	int maxNoArrows; //Maximum number of arrows that will be made
-	int spawnSpot;
+	int spawnSpot; //
 	int score;
 	int chainGauge;
 	
