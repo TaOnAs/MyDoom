@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import processing.core.PApplet;
+import game.musicLoader.Loader;
 
 public class ScoreSearcher extends PApplet {
 	
@@ -25,9 +26,11 @@ public class ScoreSearcher extends PApplet {
 	private String sql;
 	private Scanner user_input;
 	
-	public String[] scoreArray = new String[10];
-	public String[] nameArray = new String[10];
+	public String[] entryArray = new String[10];
+	private String entry;
 	
+	Loader musicloader;
+
 	//function to load the previous top ten scores for a specific song from the database
 	public void loadScores()
 	{
@@ -36,7 +39,7 @@ public class ScoreSearcher extends PApplet {
 		try
 		{
 			Class.forName("org.sqlite.JDBC");
-			setSongTitle("song1");
+			setSongTitle("");
 			path = this.getClass().getResource("MyDoom.db").getPath();	//gets file path for the database 
 			System.out.println(path);
 			conn = DriverManager.getConnection("jdbc:sqlite:" + path);	//Connects to the database ///Users/Mark/Documents/workspace/MyDoom/MyDoom.db
@@ -53,8 +56,8 @@ public class ScoreSearcher extends PApplet {
 				
 				setScore(r.getString("score"));
 				setName(r.getString("name"));
-				scoreArray[i] = score;
-				nameArray[i] = name;
+				entry = score + "\t..................\t" + name;
+				entryArray[i] = entry;
 				System.out.println(name + "\t" + score);
 				//text("test", 20, 20);
 				i++;
