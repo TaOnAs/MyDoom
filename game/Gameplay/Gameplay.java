@@ -1,5 +1,5 @@
-/*
- * Author: Trieu Nguyen
+/* 
+Author: Trieu Nguyen
  */
 
 package game.Gameplay;
@@ -59,7 +59,7 @@ public class Gameplay extends PApplet
 	    noArrows = 0;
 	    maxNoArrows = 32;
 	    
-	    arrowSpeedVariable = 27f;
+	    arrowSpeedVariable = 35f;
 	    
 	    //Starts up the buttons as off
 	    buttons[0] = false;
@@ -100,6 +100,11 @@ public class Gameplay extends PApplet
 	    if(life > 100)
 	    {
 	    	life = 100;
+	    }
+	    
+	    if(life < 0)
+	    {
+	    	life = 0;
 	    }
 	}//End draw()
 	
@@ -313,6 +318,7 @@ public class Gameplay extends PApplet
 	    	{
 	    		Arrows.remove(i);
 	    		noArrows -= 1;
+	    		life -= 3;
 	    	}
 	    }
 	}
