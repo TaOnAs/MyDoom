@@ -18,7 +18,7 @@ public class Score extends PApplet
 		size(800,600);
 		background(0);
 		//searcher.loadScores();
-		//searcher.addScores();
+		searcher.addScores("song1", "12345");
 		x = 20;
 		y = 20;
 	}
@@ -27,7 +27,7 @@ public class Score extends PApplet
 	{
 		
 		searcher = new ScoreSearcher();
-		searcher.loadScores();
+		searcher.loadScores("song1");
 		searcher.printScores();
 	}
 	
@@ -35,7 +35,7 @@ public class Score extends PApplet
 	{
 		if(key == 'a')
 		{
-			searcher.loadScores();
+			searcher.loadScores("song1");
 			searcher.printScores();
 		}
 	}

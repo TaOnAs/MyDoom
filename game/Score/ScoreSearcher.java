@@ -34,14 +34,14 @@ public class ScoreSearcher extends PApplet {
 	Loader musicloader;
 
 	//function to load the previous top ten scores for a specific song from the database
-	public void loadScores()
+	public void loadScores(String _song)
 	{
 		conn = null;
 		r = null;
 		try
 		{
 			Class.forName("org.sqlite.JDBC");
-			setSongTitle("song1");
+			setSongTitle(_song);
 			path = this.getClass().getResource("MyDoom.db").getPath();	//gets file path for the database 
 			System.out.println(path);
 			conn = DriverManager.getConnection("jdbc:sqlite:" + path);	//Connects to the database ///Users/Mark/Documents/workspace/MyDoom/MyDoom.db
@@ -94,11 +94,11 @@ public class ScoreSearcher extends PApplet {
 	}
 	
 	//Function to add new scores to the database
-	public void addScores()
+	public void addScores(String _song, String _score)
 	{
 		conn = null;
-		setScore("3000000");
-		setSongTitle("song1");
+		setScore(_score);
+		setSongTitle(_song);
 		
 		user_input = new Scanner(System.in);
 		System.out.println("Enter Your Name");
@@ -109,7 +109,8 @@ public class ScoreSearcher extends PApplet {
 			Class.forName("org.sqlite.JDBC");
 			path = this.getClass().getResource("MyDoom.db").getPath();	//gets file path for the database 
 			System.out.println(path);
-			conn = DriverManager.getConnection("jdbc:sqlite:" + path);	//Connects to the database
+			conn = DriverManager.getConnection("jdbc:sqlite:" + path);									//Connects to the database
+			//sql = "INSERT INTO Score (title,name,score) VALUES ('testSong', 'mark', '2456');
 			sql = "INSERT INTO Score (title, name, score) Values ( ?, ? ,?)";	//sql insert using a prepared statement
 			pstatm = conn.prepareStatement(sql);
 			pstatm.setString(1, songTitle);	//inserts the songTitle variable in place of the first ? in the sql

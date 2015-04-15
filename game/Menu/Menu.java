@@ -261,7 +261,7 @@ public class Menu extends PApplet
 	  background(255, 0, 0);
 	  
 	  //searcher.addScores();
-	  searcher.loadScores();
+	  searcher.loadScores("song1");
 	  fill(255);
 	  
 	  //searcher.printScores();
