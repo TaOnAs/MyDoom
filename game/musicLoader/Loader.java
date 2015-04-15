@@ -128,6 +128,16 @@ public class Loader{
 		musicPlayer.play(); //Play the audio file
 	}
 	
+	public void rewindMusicFile()
+	{
+		if(musicPlayer.isPlaying())
+		{
+		musicPlayer.pause();
+		musicPlayer.rewind(); //rewinds the audio file
+		musicPlayer.close();
+		}
+	}
+	
 	public void displayMetaData()
 	{
 		/*

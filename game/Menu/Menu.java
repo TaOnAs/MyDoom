@@ -85,6 +85,7 @@ public class Menu extends PApplet
 	{
 	  if(game.life <= 0)
 	  {
+		  startGame = false;
 		  scorescreen = true;
 	  }
 	  splash();
@@ -289,6 +290,7 @@ public class Menu extends PApplet
 	  if(game.life <= 0)
 	  {
 		  searcher.addScores("song", Integer.toString(game.score));
+		  game.life = 100;
 	  }
 	  searcher.loadScores("song");
 	  fill(255);
