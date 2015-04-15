@@ -2,6 +2,8 @@ package game.Menu;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import game.Score.ScoreSearcher;
+
 
 public class Menu extends PApplet
 {
@@ -10,6 +12,8 @@ public class Menu extends PApplet
 	//By Luke O'Brien, C13435702
 	//Main Menu
 	//
+	
+	ScoreSearcher searcher;
 
 	PImage doom;  //Loading a picture
 	PImage mydoom;  //Loading a picture
@@ -44,20 +48,9 @@ public class Menu extends PApplet
 	  size(displayWidth, displayHeight);  //Fullscreen
 	  noCursor();  //Remove mouse cursor from within the boundry of the project window
 	  
-	  //f = createFont("ARCADECLASSIC.TTF", 500);    //Creates font
-	  doom = loadImage("final2.png");       //Load picture
-	  mydoom = loadImage("MYDOOM.png");       //Load picture
-	  gameby = loadImage("GAMEBY.png");       //Load picture
-	  treb = loadImage("trebS.gif");       //Load picture
-	  start = loadImage("Start.png");       //Load picture
-	  help = loadImage("Help.png");       //Load picture
-	  gear = loadImage("gear.png");       //Load picture
-	  score = loadImage("Scores.png");       //Load picture
-	  arrow = loadImage("arrow.png");       //Load picture
-	  options2 = loadImage("Options.png");       //Load picture
-	  highscores = loadImage("highscores.png");       //Load picture
-	  helptitle = loadImage("helptitle.png");       //Load picture
-	  doomonics = loadImage("doomonics.png");       //Load picture
+	  searcher = new ScoreSearcher();
+	  
+	  loadImages();
 	  
 	  menu=1;
 	  
@@ -267,8 +260,33 @@ public class Menu extends PApplet
 	  mainMenu=false;
 	  background(255, 0, 0);
 	  
+	  //searcher.addScores();
+	  searcher.loadScores();
+	  fill(255);
+	  
+	  //searcher.printScores();
+	  
+	  textSize(50);
+	  
+	  	int x = 20;
+		int y = height / 3 + 20;
+		
+		text("Highscores for: " + searcher.getSongTitle(),width/3, height/3 - 40);
+		for( int i = 0; i < searcher.entryArray.length; i ++)
+		{
+			if(searcher.entryArray[i] != null)
+			{
+				text(searcher.entryArray[i] , width/4 - 30, y);
+				text(".............................." , width/4 + 160, y);
+				text(searcher.scoreArray[i] , width/4*3 - 40, y);
+
+			}
+			
+			y += 50;
+		}
+	  
 	  imageMode(CENTER);
-	  image(highscores, width/2, height/5);
+	  image(highscores, width/2 - 20, height/5);
 	}
 
 	//--------------------------------------------------------------------------------------
@@ -318,5 +336,24 @@ public class Menu extends PApplet
 	      mainMenu=true;
 	    }
 	}
-
+	
+	//--------------------------------------------------------------------------------------
+	
+	public void loadImages()
+	{
+		  //f = createFont("ARCADECLASSIC.TTF", 500);    //Creates font
+		  doom = loadImage("final2.png");       //Load picture
+		  mydoom = loadImage("MYDOOM.png");       //Load picture
+		  gameby = loadImage("GAMEBY.png");       //Load picture
+		  treb = loadImage("trebS.gif");       //Load picture
+		  start = loadImage("Start.png");       //Load picture
+		  help = loadImage("Help.png");       //Load picture
+		  gear = loadImage("gear.png");       //Load picture
+		  score = loadImage("Scores.png");       //Load picture
+		  arrow = loadImage("arrow.png");       //Load picture
+		  options2 = loadImage("Options.png");       //Load picture
+		  highscores = loadImage("highscores.png");       //Load picture
+		  helptitle = loadImage("helptitle.png");       //Load picture
+		  doomonics = loadImage("doomonics.png");       //Load picture
+	}
 }

@@ -1,21 +1,20 @@
 package game.Score;
 
 import processing.core.PApplet;
-import game.musicLoader.*;
+import game.musicLoader.Loader;
 
 
 public class Score extends PApplet
 {
-	
+	Loader musicloader;
 	ScoreSearcher searcher;
 	int x;
 	int y;
-	musicLoader loader;
 	
 	public void setup()
 	{
 		searcher = new ScoreSearcher();
-		loader = new musicLoader();
+		musicloader = new Loader();
 		size(800,600);
 		background(0);
 		//searcher.loadScores();
@@ -29,7 +28,7 @@ public class Score extends PApplet
 		
 		searcher = new ScoreSearcher();
 		searcher.loadScores();
-		printScores();
+		searcher.printScores();
 	}
 	
 	public void keyPressed()
@@ -37,23 +36,8 @@ public class Score extends PApplet
 		if(key == 'a')
 		{
 			searcher.loadScores();
-			printScores();
+			searcher.printScores();
 		}
-	}
-	
-	public void printScores()
-	{
-		y = 20;
-		for( int i = 0; i < searcher.entryArray.length; i ++)
-		{
-			if(searcher.entryArray[i] != null)
-			{
-				text(searcher.entryArray[i] , x, y);
-			}
-			
-			y += 20;
-		}
-
 	}
 
 

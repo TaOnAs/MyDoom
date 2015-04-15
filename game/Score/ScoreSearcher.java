@@ -27,6 +27,8 @@ public class ScoreSearcher extends PApplet {
 	private Scanner user_input;
 	
 	public String[] entryArray = new String[10];
+	public String[] scoreArray = new String[10];
+
 	private String entry;
 	
 	Loader musicloader;
@@ -39,7 +41,7 @@ public class ScoreSearcher extends PApplet {
 		try
 		{
 			Class.forName("org.sqlite.JDBC");
-			setSongTitle("");
+			setSongTitle("song1");
 			path = this.getClass().getResource("MyDoom.db").getPath();	//gets file path for the database 
 			System.out.println(path);
 			conn = DriverManager.getConnection("jdbc:sqlite:" + path);	//Connects to the database ///Users/Mark/Documents/workspace/MyDoom/MyDoom.db
@@ -56,8 +58,9 @@ public class ScoreSearcher extends PApplet {
 				
 				setScore(r.getString("score"));
 				setName(r.getString("name"));
-				entry = score + "\t..................\t" + name;
-				entryArray[i] = entry;
+				//entry = score + "\t .................. \t" + name;
+				entryArray[i] = name;
+				scoreArray[i] = score;
 				System.out.println(name + "\t" + score);
 				//text("test", 20, 20);
 				i++;
@@ -142,6 +145,23 @@ public class ScoreSearcher extends PApplet {
 		}
 		System.out.println("Record created");
 	}
+	
+	public void printScores()
+	{
+		int x = 20;
+		int y = 20;
+		for( int i = 0; i < entryArray.length; i ++)
+		{
+			if(entryArray[i] != null)
+			{
+				text(entryArray[i] , x, y);
+			}
+			
+			y += 20;
+		}
+
+	}
+
 	
 	//getters and setters for variables
 	public String getName() {
