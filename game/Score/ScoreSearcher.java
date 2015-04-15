@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import processing.core.PApplet;
-import game.musicLoader.Loader;
 
 public class ScoreSearcher{
 	
@@ -29,7 +28,6 @@ public class ScoreSearcher{
 	public String[] entryArray = new String[10];
 	public String[] scoreArray = new String[10];
 
-	private String entry;
 	public PApplet parent;
 	
 	public ScoreSearcher(PApplet mainApplet)

@@ -86,9 +86,6 @@ public class Menu extends PApplet
 	  if(game.life <= 0)
 	  {
 		  scorescreen = true;
-		  startGame = false;
-		  mainMenu = false;
-		  highscores();
 	  }
 	  splash();
 		 if (mainMenu)
@@ -291,19 +288,17 @@ public class Menu extends PApplet
 	  
 	  if(game.life <= 0)
 	  {
-		  searcher.addScores("hotline.mp3", Integer.toString(game.score));
+		  searcher.addScores("song", Integer.toString(game.score));
 	  }
-	  searcher.loadScores("hotline.mp3");
+	  searcher.loadScores("song");
 	  fill(255);
-	  
-	  //searcher.printScores();
-	  
+	  	  
 	  	textSize(50);
 	  
 	  	int x = 20;
 		int y = height / 3 + 20;
 		
-		text("Highscores for: " + searcher.getSongTitle(),width/3, height/3 - 40);
+		text("Highscores for " + searcher.getSongTitle(),width/3, height/3 - 40);
 		for( int i = 0; i < searcher.entryArray.length; i ++)
 		{
 			if(searcher.entryArray[i] != null)
@@ -322,7 +317,30 @@ public class Menu extends PApplet
 	}
 
 	//--------------------------------------------------------------------------------------
-
+	public void keyPressed()
+	{
+		if(key == 'q' ||key == 'Q')
+	    {
+	        game.buttons[0] = true;
+	    }
+	     
+	    if(key == 'w' || key == 'W')
+        {
+            game.buttons[1] = true;
+        }
+	     
+        if(key == 'e' || key == 'E')
+        {
+            game.buttons[2] = true;
+        }
+	     
+        if(key == 'r' || key == 'R')
+        {     
+        	game.buttons[3] = true;
+	    }
+	
+	}
+	
 	public void keyReleased()
 	{
 	    if (key == CODED)
@@ -337,7 +355,28 @@ public class Menu extends PApplet
 	        }
 	      }
 	      
-	      if (key == 'x' || key == 'X')
+	    if(key == 'q' ||key == 'Q')
+	    {
+	        game.buttons[0] = false;
+	    }
+	     
+	    if(key == 'w' || key == 'W')
+        {
+            game.buttons[1] = false;
+        }
+	     
+        if(key == 'e' || key == 'E')
+        {
+            game.buttons[2] = false;
+        }
+	     
+        if(key == 'r' || key == 'R')
+        {     
+        	game.buttons[3] = false;
+	    }
+	    
+        
+	     if (key == 'x' || key == 'X')
 	    {
 	       if (menu==1)
 	       {

@@ -9,7 +9,7 @@ import processing.core.PApplet;
 
 public class Gameplay
 {
-	boolean[] buttons;
+	public boolean[] buttons;
 	
 	int noArrows; //The current amount of arrows on screen
 	int maxNoArrows; //Maximum number of arrows that will be made
@@ -50,9 +50,9 @@ public class Gameplay
 		parent.frameRate(60);
 		
 	    noArrows = 0;
-	    maxNoArrows = 32;
+	    maxNoArrows = 500;
 	    
-	    arrowSpeedVariable = 35f;
+	    arrowSpeedVariable = 40f;
 	    
 	    //Starts up the buttons as off
 	    buttons[0] = false;
