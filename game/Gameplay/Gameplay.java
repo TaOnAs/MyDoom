@@ -6,6 +6,7 @@ package game.Gameplay;
 
 import java.util.ArrayList;
 import processing.core.PApplet;
+import game.musicLoader.Loader;
 
 public class Gameplay extends PApplet
 {
@@ -25,6 +26,8 @@ public class Gameplay extends PApplet
 	float ArrowHei = 100; //Sets Arrow height
 	float ArrowLen = 100; //Sets Arrow length
 	
+	Loader musicPlayer = new Loader();
+	
 	ArrayList<Arrow> Arrows;
 	checkArea scoreSpot;
 	Collision collision;
@@ -33,6 +36,14 @@ public class Gameplay extends PApplet
 	{
 		//size(800, 1580);
 		size(displayWidth, displayHeight);
+		
+		//smooth();
+		//noLoop(); //Run draw() once
+		/*
+		 * draw() was being ran even before the file was loaded but what was being drawn
+		 * is dependent on data in the music file being loaded 
+		 */
+		//musicPlayer.fileLoaded = false; 
 		
 		score = 0;
 		life = 100;
@@ -56,23 +67,67 @@ public class Gameplay extends PApplet
 	    buttons[2] = false;
 	    buttons[3] = false;
 	}
-
+	
 	public void draw()
 	{
-	    background(255);
-	    
-	    aestheics();
+		/*if(musicPlayer.fileLoaded == false)
+		{
+			musicPlayer.showFileDialog();
+		}
+		else if(musicPlayer.fileLoaded == true)
+		{
+			//displaySpectrum(); Will come back to this method, going to work on drawing the waveform
+			
+			
+			musicPlayer.displayWaveForm();
+		}*/
+		background(135, 135, 135, 191);
+		
+		aestheics();
+	    lifeDraw();
 	    
 	    text(noArrows, 50, 50);
 	    text(life, 100, 210);
-	    text(score, 100, 220);
-	    text("Combo" + chainGauge, 300, 50);
+	    
+	    textSize(20);
+	    text("Combo: " + chainGauge, 650, 150);
+	    text("Points: " + score, 650, 175);
 	    
 	    scoreSpot.drawArea();
-	    
+
 	    Gameplay();
 	    
+	    if(life > 100)
+	    {
+	    	life = 100;
+	    }
 	}//End draw()
+	
+	public void lifeDraw()
+	{
+		fill(0, 0, 0, 191);
+		rect(0, 0, 180, height);
+		
+		if(life >= 75)
+		{
+			fill(0, 178, 0, 191);
+			rect(0, 0, 180, (height*life/100));
+		}
+		
+		if((life < 75) &&(life >= 30))
+		{
+			fill(250, 255, 84, 191);
+			rect(0, 0, 180, (height*life/100));
+		}
+		
+		if(life < 30)
+		{
+			fill(128, 8, 45);
+			rect(0, 0, 180, (height*life/100));
+		}
+		
+		fill(0);
+	}
 	
 	public void aestheics()
 	{
@@ -107,52 +162,52 @@ public class Gameplay extends PApplet
 	    		if((Arrows.get(i).kPos == 0) && (buttons[0]))
 	    		{
 	    			score += scoreSystemInverse(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
-	    			life += 5;
+	    			life += 3;
 	    			arrowsPressed = true;
 	    		}
 	    		else if(((Arrows.get(i).kPos == 0)) && ((buttons[1]) || (buttons[2]) || (buttons[3])))
 	    		{
 	    			chainGauge = 0;
-	    			life -= 10;
+	    			life -= 5;
 	    			arrowsPressed = true;
 	    		}
 	    		
 	    		if((Arrows.get(i).kPos == 1) && (buttons[1]))
 	    		{
 	    			score += scoreSystemInverse(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
-	    			life += 5;
+	    			life += 3;
 	    			arrowsPressed = true;
 	    		}
 	    		else if(((Arrows.get(i).kPos == 1)) && ((buttons[0]) || (buttons[3]) || (buttons[2])))
 	    		{
 	    			chainGauge = 0;
-	    			life -= 10;
+	    			life -= 5;
 	    			arrowsPressed = true;
 	    		}
 	    		
 	    		if((Arrows.get(i).kPos == 2) && (buttons[2]))
 	    		{
 	    			score += scoreSystemInverse(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
-	    			life += 5;
+	    			life += 3;
 	    			arrowsPressed = true;
 	    		}
 	    		else if(((Arrows.get(i).kPos == 2)) && ((buttons[0]) || (buttons[3]) || (buttons[1])))
 	    		{
 	    			chainGauge = 0;
-	    			life -= 10;
+	    			life -= 5;
 	    			arrowsPressed = true;
 	    		}
 	    		
 	    		if((Arrows.get(i).kPos == 3) && (buttons[3]))
 	    		{
 	    			score += scoreSystemInverse(Arrows.get(i).arrowCurrXPos + Arrows.get(i).arrowLen, Arrows.get(i).arrowCurrYPos + Arrows.get(i).arrowHei, Arrows.get(i).arrowHei, Arrows.get(i).arrowLen);
-	    			life += 5;
+	    			life += 3;
 	    			arrowsPressed = true;
 	    		}
 	    		else if(((Arrows.get(i).kPos == 3)) && ((buttons[1]) || (buttons[2]) || (buttons[0])))
 	    		{
 	    			chainGauge = 0;
-	    			life -= 10;
+	    			life -= 5;
 	    			arrowsPressed = true;
 	    		}
 	    	}
@@ -377,8 +432,8 @@ public class Gameplay extends PApplet
 		//Draws the score area
 		public void drawArea()
 		{
-			fill(255, 0, 0);
-			rect(0, awayFromTop, checkLen, checkHei);
+			fill(0, 0, 155);
+			rect(200, awayFromTop, 400, checkHei);
 		}
 	}
 	
