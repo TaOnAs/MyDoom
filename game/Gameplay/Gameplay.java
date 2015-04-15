@@ -68,8 +68,8 @@ public class Gameplay
 		aestheics();
 	    lifeDraw();
 	    
-	    parent.text(noArrows, 50, 50);
-	    parent.text(life, 100, 210);
+	    //parent.text(noArrows, 50, 50);
+	    //parent.text(life, 100, 210);
 	    
 	    parent.textSize(20);
 	    parent.text("Combo: " + chainGauge, 650, 150);
