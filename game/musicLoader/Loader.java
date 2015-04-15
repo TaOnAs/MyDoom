@@ -6,16 +6,14 @@
  * Description:Loads music files player wants to add to game and passes them to the analyzer class
  * 
  */
-//
+
 
 package game.musicLoader;
 
 import processing.core.PApplet; //PApplet is in here
 import ddf.minim.*; //Processing sound methods
 import ddf.minim.analysis.FFT;
-
 import javax.swing.*;
-
 import java.io.*;
 
 public class Loader{
@@ -24,33 +22,36 @@ public class Loader{
 	public AudioPlayer musicPlayer; //Object that will actually play the sound
 	public AudioMetaData musicMetaData;
 	public FFT frequencySpectrum;
-	PApplet parent;
+	private PApplet parent;
 	public boolean fileLoaded;
-	public int metaXPos,metaYPos,metaSpacing; //Co-ordinates for displaying the metadata on the applet instead of console
+	public int metaXPos,metaYPos,metaSpacing,waveFormXPos,waveFormYPos; //Co-ordinates for displaying the metadata on the applet instead of console
 	public String musicFileName;
 	public File musicFile;
 	final JFileChooser fileChooser = new JFileChooser();
 	int fileChooserCheck = fileChooser.showOpenDialog(parent);
 	
+	
 	public void setup()
 	{
-		parent.size(1024,600); //The sceeen size is closely linked the the buffer size grab chunks of music data into minim
-		parent.smooth();
-		parent.noLoop(); //Run draw() once
+		//parent.smooth();
+		//parent.noLoop(); //Run draw() once
 		/*
 		 * draw() was being ran even before the file was loaded but what was being drawn
 		 * is dependent on data in the music file being loaded 
 		 */
-		metaXPos = 50; //X cord
-		metaYPos = 200; //Y cord
-		metaSpacing = 15; //Spacing between each line of text
-		parent.textFont(parent.createFont("Serif", metaSpacing));
-		fileLoaded = false;
 	}
 	
 	public Loader(PApplet mainApplet)
 	{
 		parent = mainApplet;
+		fileLoaded = false;
+		metaXPos = 800; //X cord
+		metaYPos = 200; //Y cord
+		waveFormXPos = 800;
+		waveFormYPos = 100;
+		metaSpacing = 20; //Spacing between each line of text
+		parent.textFont(parent.createFont("Serif", metaSpacing));
+		showFileDialog();
 	}
 	
 	public void showFileDialog()
@@ -85,16 +86,18 @@ public class Loader{
 		{
 			musicLoader = new Minim(parent);
 			musicPlayer = musicLoader.loadFile(musicFile.getAbsolutePath(),1024); //Load the music file into the musicPlayer
-			fileLoaded = true;
+			//mainMenu.startGame = true;
 			PApplet.println("File loaded");
-			parseMetaData(); //Only want to call these 3 methods once
-			setupSpectrum(); //Having them in setup() was causing the rest of the program not to work
-			playMusicFile();
+			fileLoaded = true;
+			//parseMetaData(); //Only want to call these 3 methods once
+			//setupSpectrum(); //Having them in setup() was causing the rest of the program not to work
+			//playMusicFile();
 			/*
 			 * File is loaded so we have the data we need to draw the spectrum 
 			 * so re-enable looping of the draw() method
 			 */
-			parent.loop(); 
+			//parent.loop(); 
+			//parent.loop();
 		}
 	}
 	 
@@ -132,15 +135,14 @@ public class Loader{
 		 * displayed on the applet and not the console
 		 * 
 		 */
-		parent.background(0);
 		parent.fill(0, 102, 153, 204);
-		parent.text("Filename: " + musicMetaData.fileName(),metaXPos,metaYPos + (metaSpacing * 1));
-		parent.text("Title: " + musicMetaData.title(),metaXPos,metaYPos + (metaSpacing * 2));
-		parent.text("Track: " + musicMetaData.track(),metaXPos,metaYPos + (metaSpacing * 3));
-		parent.text("Artist: " + musicMetaData.author(),metaXPos,metaYPos + (metaSpacing * 4));
-		parent.text("Composer: " + musicMetaData.composer(),metaXPos,metaYPos + (metaSpacing * 5));
-		parent.text("Genre: " + musicMetaData.genre(),metaXPos,metaYPos + (metaSpacing * 6));
-		parent.text("Time: : " + musicMetaData.length(),metaXPos,metaYPos + (metaSpacing * 7));
+		parent.text("Filename: " + musicMetaData.fileName(),metaXPos,((parent.displayHeight / 8) * 5) + (metaSpacing * 1));
+		parent.text("Title: " + musicMetaData.title(),metaXPos,((parent.displayHeight / 8) * 5) + (metaSpacing * 2));
+		parent.text("Track: " + musicMetaData.track(),metaXPos,((parent.displayHeight / 8) * 5) + (metaSpacing * 3));
+		parent.text("Artist: " + musicMetaData.author(),metaXPos,((parent.displayHeight / 8) * 5) + (metaSpacing * 4));
+		parent.text("Composer: " + musicMetaData.composer(),metaXPos,((parent.displayHeight / 8) * 5)+ (metaSpacing * 5));
+		parent.text("Genre: " + musicMetaData.genre(),metaXPos,((parent.displayHeight / 8) * 5) + (metaSpacing * 6));
+		parent.text("Time: : " + musicMetaData.length(),metaXPos,((parent.displayHeight / 8) * 5) + (metaSpacing * 7));
 	}
 	
 	public void displayWaveForm()
@@ -152,29 +154,11 @@ public class Loader{
 		parent.stroke(255);
 		for(int buffer = 0; buffer < musicPlayer.bufferSize() - 1; ++buffer)
 		{
-			parent.line(buffer,50 + musicPlayer.left.get(buffer) * 50,buffer + 1,musicPlayer.left.get(buffer + 1) * 50);
-			parent.line(buffer,150 + musicPlayer.right.get(buffer) * 50,buffer + 1,150 + musicPlayer.right.get(buffer + 1	) * 50);
+			parent.line(buffer + (parent.displayWidth / 2),50 + musicPlayer.left.get(buffer) * 50,buffer + (parent.displayWidth / 2),musicPlayer.left.get(buffer + 1) * 50); //x1,y1,x2,y2
+			parent.line(buffer + (parent.displayWidth / 2),150 + musicPlayer.right.get(buffer) * 50,buffer + (parent.displayWidth / 2),150 + musicPlayer.right.get(buffer + 1) * 50); //x1,y1,x2,y2
 		}
 	}
 	
-	public void draw()
-	{
-		/*
-		 * Only draw the spectrum if the file is loaded
-		 * otherwise open a file dialog box to allow file 
-		 * selection
-		 */
-		if(fileLoaded == false)
-		{
-			showFileDialog();
-		}
-		else if(fileLoaded == true)
-		{
-			//displaySpectrum(); Will come back to this method, going to work on drawing the waveform
-			displayMetaData();
-			displayWaveForm();
-		}
-	}
 	
 	
 }

@@ -2,8 +2,11 @@ package game.Menu;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import ddf.minim.*; //Processing sound methods
+import ddf.minim.analysis.FFT;
 import game.Score.ScoreSearcher;
-
+import game.Gameplay.Gameplay;
+import game.musicLoader.Loader;
 
 public class Menu extends PApplet
 {
@@ -13,8 +16,10 @@ public class Menu extends PApplet
 	//Main Menu
 	//
 	
-	ScoreSearcher searcher;
-
+	ScoreSearcher searcher = new ScoreSearcher(this);
+	Gameplay game = new Gameplay(this);
+	Loader MusicLoader;
+	
 	PImage doom;  //Loading a picture
 	PImage mydoom;  //Loading a picture
 	PImage gameby;  //Loading a picture
@@ -30,11 +35,14 @@ public class Menu extends PApplet
 	PImage doomonics;  //Loading a picture
 
 
-	boolean mainMenu;  //Boolean for the menu
-	boolean helpscreen;  //Boolean for the menu
-	boolean optionsmenu;  //Boolean for the menu
-	boolean scorescreen;  //Boolean for the menu
-
+	public boolean startGame; //start button
+	public boolean mainMenu;  //Boolean for the menu
+	public boolean helpscreen;  //Boolean for the menu
+	public boolean optionsmenu;  //Boolean for the menu
+	public boolean scorescreen;  //Boolean for the menu
+	public boolean startMusic;
+	public boolean stopMusic;
+	
 	int circleSize = 501;  //for pulsing
 	int shrinkOrGrow = 1;  //for pulsing
 
@@ -48,43 +56,63 @@ public class Menu extends PApplet
 	  size(displayWidth, displayHeight);  //Fullscreen
 	  noCursor();  //Remove mouse cursor from within the boundry of the project window
 	  
-	  searcher = new ScoreSearcher();
-	  
 	  loadImages();
 	  
 	  menu=1;
 	  
+	  startGame = false;
 	  mainMenu=false;  //Boolean
 	  helpscreen=false;  //Boolean
 	  optionsmenu=false;  //Boolean
 	  scorescreen=false;  //Boolean
+	  stopMusic = false;
 	  
 	  y=height-height*2;
+	  game.setup();
 	}
 
 	//--------------------------------------------------------------------------------------
 
+	void startGame()
+	{
+		game.draw();
+		game.keyPressed();
+		game.keyReleased();
+	}
+	
+	
 	public void draw()
 	{
+	  if(game.life <= 0)
+	  {
+		  scorescreen = true;
+		  startGame = false;
+		  mainMenu = false;
+		  highscores();
+	  }
 	  splash();
-	  
-	  if (mainMenu)
-	  {
-	    mainMenu();  //Calls mainmenu
+		 if (mainMenu)
+		 {
+			 mainMenu();  //Calls mainmenu
+		 }
+		 if(startGame == true)
+		 {
+			 startGame();
+		 }
+		 if (helpscreen)
+		 {
+			 helpScreen();  //Calls help
+		 }
+		 if (optionsmenu)
+		 {
+			 options();  //Calls options
+		 }
+		 if (scorescreen)
+		 {
+			 highscores();  //Calls scorescreen
+		 }
 	  }
-	  if (helpscreen)
-	  {
-	    helpScreen();  //Calls help
-	  }
-	  if (optionsmenu)
-	  {
-	    options();  //Calls options
-	  }
-	   if (scorescreen)
-	  {
-	    highscores();  //Calls scorescreen
-	  }
-	}
+	
 
 	//--------------------------------------------------------------------------------------
 
@@ -229,7 +257,7 @@ public class Menu extends PApplet
 	    ellipse(width/7*2, height/2, circleSize, circleSize);
 	    
 	    image(doomonics, width/7*2, height/2);
-	  
+	 
 	}
 
 	//--------------------------------------------------------------------------------------
@@ -254,19 +282,23 @@ public class Menu extends PApplet
 	}
 
 	//--------------------------------------------------------------------------------------
-
+	
 	void highscores()
 	{
 	  mainMenu=false;
 	  background(255, 0, 0);
 	  
-	  //searcher.addScores();
-	  searcher.loadScores("song1");
+	  
+	  if(game.life <= 0)
+	  {
+		  searcher.addScores("hotline.mp3", Integer.toString(game.score));
+	  }
+	  searcher.loadScores("hotline.mp3");
 	  fill(255);
 	  
 	  //searcher.printScores();
 	  
-	  textSize(50);
+	  	textSize(50);
 	  
 	  	int x = 20;
 		int y = height / 3 + 20;
@@ -309,7 +341,11 @@ public class Menu extends PApplet
 	    {
 	       if (menu==1)
 	       {
-	          
+	    	  startGame = true;
+	          mainMenu = false;
+	          Loader MusicLoader = new Loader(this);
+	          MusicLoader.playMusicFile();
+	          startGame();
 	       }
 	       
 	       if (menu==2)

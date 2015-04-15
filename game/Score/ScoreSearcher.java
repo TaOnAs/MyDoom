@@ -10,7 +10,7 @@ import java.util.Scanner;
 import processing.core.PApplet;
 import game.musicLoader.Loader;
 
-public class ScoreSearcher extends PApplet {
+public class ScoreSearcher{
 	
 	//variables to use as parameters for searching the database
 	private String songTitle;
@@ -30,8 +30,12 @@ public class ScoreSearcher extends PApplet {
 	public String[] scoreArray = new String[10];
 
 	private String entry;
+	public PApplet parent;
 	
-	Loader musicloader;
+	public ScoreSearcher(PApplet mainApplet)
+	{
+		this.parent = mainApplet;
+	}
 
 	//function to load the previous top ten scores for a specific song from the database
 	public void loadScores(String _song)
@@ -145,22 +149,6 @@ public class ScoreSearcher extends PApplet {
 			}
 		}
 		System.out.println("Record created");
-	}
-	
-	public void printScores()
-	{
-		int x = 20;
-		int y = 20;
-		for( int i = 0; i < entryArray.length; i ++)
-		{
-			if(entryArray[i] != null)
-			{
-				text(entryArray[i] , x, y);
-			}
-			
-			y += 20;
-		}
-
 	}
 
 	

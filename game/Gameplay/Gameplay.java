@@ -6,45 +6,38 @@ package game.Gameplay;
 
 import java.util.ArrayList;
 import processing.core.PApplet;
-import game.musicLoader.Loader;
 
-public class Gameplay extends PApplet
+public class Gameplay
 {
 	boolean[] buttons;
 	
 	int noArrows; //The current amount of arrows on screen
 	int maxNoArrows; //Maximum number of arrows that will be made
 	int spawnSpot; //
-	int score;
+	public int score;
 	int chainGauge;
 	
 	float arrowSpeedVariable; //Speed of the arrow
 	float speedConstant; //Constant that is needed to adjust arrows to constant speed regardless of screensize or arrow size
 	
-	float life;
+	public float life;
 	
 	float ArrowHei = 100; //Sets Arrow height
 	float ArrowLen = 100; //Sets Arrow length
-	
-	Loader musicPlayer = new Loader();
+	public PApplet parent;
 	
 	ArrayList<Arrow> Arrows;
 	checkArea scoreSpot;
 	Collision collision;
 	
-	public void setup()
+	public Gameplay(PApplet mainApplet)
 	{
-		//size(800, 1580);
-		size(displayWidth, displayHeight);
-		
-		//smooth();
-		//noLoop(); //Run draw() once
-		/*
-		 * draw() was being ran even before the file was loaded but what was being drawn
-		 * is dependent on data in the music file being loaded 
-		 */
-		//musicPlayer.fileLoaded = false; 
-		
+		parent = mainApplet;
+	}
+	
+	public void setup()
+	{	
+		//parent.size(parent.displayWidth,parent.displayHeight);
 		score = 0;
 		life = 100;
 		
@@ -54,7 +47,7 @@ public class Gameplay extends PApplet
 		scoreSpot = new checkArea(ArrowHei);
 		collision = new Collision(0, scoreSpot.awayFromTop, scoreSpot.checkLen, scoreSpot.checkHei);
 		
-		frameRate(60);
+		parent.frameRate(60);
 		
 	    noArrows = 0;
 	    maxNoArrows = 32;
@@ -66,32 +59,21 @@ public class Gameplay extends PApplet
 	    buttons[1] = false;
 	    buttons[2] = false;
 	    buttons[3] = false;
+	    
 	}
 	
 	public void draw()
 	{
-		/*if(musicPlayer.fileLoaded == false)
-		{
-			musicPlayer.showFileDialog();
-		}
-		else if(musicPlayer.fileLoaded == true)
-		{
-			//displaySpectrum(); Will come back to this method, going to work on drawing the waveform
-			
-			
-			musicPlayer.displayWaveForm();
-		}*/
-		background(135, 135, 135, 191);
-		
+		parent.background(135, 135, 135, 191);
 		aestheics();
 	    lifeDraw();
 	    
-	    text(noArrows, 50, 50);
-	    text(life, 100, 210);
+	    parent.text(noArrows, 50, 50);
+	    parent.text(life, 100, 210);
 	    
-	    textSize(20);
-	    text("Combo: " + chainGauge, 650, 150);
-	    text("Points: " + score, 650, 175);
+	    parent.textSize(20);
+	    parent.text("Combo: " + chainGauge, 650, 150);
+	    parent.text("Points: " + score, 650, 175);
 	    
 	    scoreSpot.drawArea();
 
@@ -110,38 +92,38 @@ public class Gameplay extends PApplet
 	
 	public void lifeDraw()
 	{
-		fill(0, 0, 0, 191);
-		rect(0, 0, 180, height);
+		parent.fill(0, 0, 0, 191);
+		parent.rect(0, 0, 180, parent.height);
 		
 		if(life >= 75)
 		{
-			fill(0, 178, 0, 191);
-			rect(0, 0, 180, (height*life/100));
+			parent.fill(0, 178, 0, 191);
+			parent.rect(0, 0, 180, (parent.height*life/100));
 		}
 		
 		if((life < 75) &&(life >= 30))
 		{
-			fill(250, 255, 84, 191);
-			rect(0, 0, 180, (height*life/100));
+			parent.fill(250, 255, 84, 191);
+			parent.rect(0, 0, 180, (parent.height*life/100));
 		}
 		
 		if(life < 30)
 		{
-			fill(128, 8, 45);
-			rect(0, 0, 180, (height*life/100));
+			parent.fill(128, 8, 45);
+			parent.rect(0, 0, 180, (parent.height*life/100));
 		}
 		
-		fill(0);
+		parent.fill(0);
 	}
 	
 	public void aestheics()
 	{
-		fill(0);
-		rect(180, 0, 440, height);
+		parent.fill(0);
+		parent.rect(180, 0, 440, parent.height);
 		
-		stroke(0);
-		fill(255, 255, 255, 171);
-		rect(200, 0, 400, height);
+		parent.stroke(0);
+		parent.fill(255, 255, 255, 171);
+		parent.rect(200, 0, 400, parent.height);
 	}
 	
 	public void Gameplay()
@@ -150,7 +132,7 @@ public class Gameplay extends PApplet
 	    {
 	    	for(int i = 0; i < maxNoArrows; i++)
 	    	{
-	    		spawnSpot = (int)random(0, 4);
+	    		spawnSpot = (int)parent.random(0, 4);
 	    		
 		        Arrows.add(new Arrow(ArrowHei, ArrowLen, 200, spawnSpot, noArrows));
 		        noArrows += 1; //Increments number of arrows
@@ -432,14 +414,14 @@ public class Gameplay extends PApplet
 			awayFromTop = 50;
 			
 			checkHei = arrowHei;
-			checkLen = width;
+			checkLen = parent.width;
 		}
 		
 		//Draws the score area
 		public void drawArea()
 		{
-			fill(0, 0, 155);
-			rect(200, awayFromTop, 400, checkHei);
+			parent.fill(0, 0, 155);
+			parent.rect(200, awayFromTop, 400, checkHei);
 		}
 	}
 	
@@ -462,7 +444,7 @@ public class Gameplay extends PApplet
 	        kPos = k;
 	        
 	        //Sets arrow
-	        arrowCurrYPos = (height + arrowHei) + noInQueue*arrowHei;
+	        arrowCurrYPos = (parent.height + arrowHei) + noInQueue*arrowHei;
 	    
 	        //Sets arrows in their right X positions depending on which key is used
 	        switch(k)
@@ -501,31 +483,31 @@ public class Gameplay extends PApplet
     		{
 	    		case 0:
 	    		{
-	    			fill(100, 155, 50);
+	    			parent.fill(100, 155, 50);
 	    			break;
 	    		}
 	    		
 	    		case 1:
 	    		{
-	    			fill(50, 155, 100);
+	    			parent.fill(50, 155, 100);
 	    			break;
 	    		}
 	    		
 	    		case 2:
 	    		{
-	    			fill(100, 155, 50);
+	    			parent.fill(100, 155, 50);
 	    			break;
 	    		}
 	    		
 	    		case 3:
 	    		{
-	    			fill(50, 155, 100);
+	    			parent.fill(50, 155, 100);
 	    			break;
 	    		}
     		}
 		     
 		     //fill(0);
-		     rect(arrowCurrXPos, arrowCurrYPos, arrowLen, arrowHei);
+		     parent.rect(arrowCurrXPos, arrowCurrYPos, arrowLen, arrowHei);
 		 }
 	  
 		 public void arrowCollison()
@@ -630,22 +612,22 @@ public class Gameplay extends PApplet
 	         buttons[3] = true;
 	     }*/
 		
-		 if(key == 'q' || key == 'Q')
+		 if(parent.key == 'q' || parent.key == 'Q')
 	     {
 	        buttons[0] = true;
 	     }
 	     
-	     if(key == 'w' || key == 'W')
+	     if(parent.key == 'w' || parent.key == 'W')
 	     {
 	         buttons[1] = true;
 	     }
 	     
-	     if(key == 'e' || key == 'E')
+	     if(parent.key == 'e' || parent.key == 'E')
 	     {
 	         buttons[2] = true;
 	     }
 	     
-	     if(key == 'r' || key == 'R')
+	     if(parent.key == 'r' || parent.key == 'R')
 	     {
 	         buttons[3] = true;
 	     }
@@ -674,22 +656,22 @@ public class Gameplay extends PApplet
         	buttons[3] = false;
 	    }*/
 		
-		if(key == 'q' ||key == 'Q')
+		if(parent.key == 'q' ||parent.key == 'Q')
 	    {
 	        buttons[0] = false;
 	    }
 	     
-	    if(key == 'w' || key == 'W')
+	    if(parent.key == 'w' || parent.key == 'W')
         {
             buttons[1] = false;
         }
 	     
-        if(key == 'e' || key == 'E')
+        if(parent.key == 'e' || parent.key == 'E')
         {
             buttons[2] = false;
         }
 	     
-        if(key == 'r' || key == 'R')
+        if(parent.key == 'r' || parent.key == 'R')
         {     
         	buttons[3] = false;
 	    }
